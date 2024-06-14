@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.graph_objs as go
-from db.entries import get_entries, filter_Ag100Br
+from db.entries import get_entries
+from db.filter import filter_Ag100Br
 from normalization.normalization import normalize_ref, normalize_electrolyte_concentration, normalize_scan_rate
 
 entries = get_entries(filter_Ag100Br)
