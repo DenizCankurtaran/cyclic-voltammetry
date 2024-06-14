@@ -6,14 +6,33 @@ from util.electrode import (
     create_ce_electrode,
     create_ref_electrode,
 )
+from util.source import create_source
 import streamlit as st
 import pandas as pd
+import codecs
+import base64
+
 
 if "filter" not in st.session_state:
     st.session_state["filter"] = []
 
 
 material = "Ag"
+
+
+def get_electrode_composition(electrolyte):
+    composition = []
+    for component in electrolyte["components"]:
+
+        concentration = ""
+        if "concentration" in component:
+            concentration = component["concentration"]["value"]
+        if component["name"] == "water":
+            composition.append(f"{concentration} H2O")
+        else:
+            composition.append(f"{concentration} {component['name']}")
+
+    return " + ".join(composition)
 
 
 def get_table_entries(entries):
@@ -29,8 +48,9 @@ def get_table_entries(entries):
         scanrate_value = entry.figure_description.scan_rate.value
         scanrate_unit = entry.figure_description.scan_rate.unit
 
-        electrolyte = entry.system.electrolyte.__dict__["_descriptor"]
-
+        electrolyte = get_electrode_composition(
+            entry.system.electrolyte.__dict__["_descriptor"]
+        )
         try:
             we_electrode = create_we_electrode(
                 entry.get_electrode("WE").__dict__["_descriptor"]
@@ -38,58 +58,37 @@ def get_table_entries(entries):
         except KeyError:
             print("no WE electrode existing")
 
-        try:
-            ref_electrode = create_ref_electrode(
-                entry.get_electrode("REF").__dict__["_descriptor"]
-            )
-        except KeyError:
-            print("no REF electrode existing")
+        bibliography_year = ""
+        if "year" in entry.bibliography.fields:
+            bibliography_year = entry.bibliography.fields["year"]
 
-        try:
-            ce_electrode = create_ce_electrode(
-                entry.get_electrode("CE").__dict__["_descriptor"]
-            )
-        except KeyError:
-            print("no CE electrode existing")
+        source = create_source(entry.source.__dict__["_descriptor"])
 
+        encoded_image = base64.b64encode(entry.thumbnail()).decode("utf-8")
         table_entries.append(
             {
-                "name": entry.package.resource_names[0],
-                "material": we_electrode["name"],
+                "plot": False,
+                "graph": f"data:image/png;base64,{encoded_image}",
+                "material": we_electrode["material"],
                 "orientation": we_electrode["crystallographicOrientation"],
-                "electrolyte": "",
-                "year": "",  # entry.bibliography['year'],
-                "reference": "",
+                "electrolyte": electrolyte,
+                "year": bibliography_year,
+                "reference": source["url"],
             }
         )
     return table_entries
 
 
-def apply_filter_input(entries):
-    if not entries:
-        return []
-
-    filtered_entries = entries.copy()
+def apply_filter_input(entry):
+    matches = []
     for filter_state in st.session_state["filter"]:
-
         operator = filter_state["operator"]
         value = filter_state["value"]
-
-        print(filter_state)
-        if filter_state["column"] == "Name":
-            filtered_entries = [
-                entry
-                for entry in filtered_entries
-                if apply_operator(operator, entry["name"], value)
-            ]
-
-        if filter_state["column"] == "Material":
-            filtered_entries = [
-                entry
-                for entry in filtered_entries
-                if apply_operator(operator, entry["material"], value)
-            ]
-    return filtered_entries
+        column_key = filter_state["column"].lower()
+        if len(value) == 0:
+            continue
+        matches.append(apply_operator(operator, entry[column_key], value))
+    return all(matches)
 
 
 FilterInput()
@@ -97,7 +96,25 @@ FilterInput()
 entries_with_material = get_entries_with_material(material)
 
 table_entries = get_table_entries(entries_with_material)
-filtered_entries = apply_filter_input(table_entries)
+filtered_entries = filter(lambda x: apply_filter_input(x), table_entries)
 
 df = pd.DataFrame(filtered_entries)
-st.dataframe(df, use_container_width=True)
+st.data_editor(
+    df,
+    use_container_width=True,
+    column_config={
+        "plot": st.column_config.CheckboxColumn("plot"),
+        "graph": st.column_config.ImageColumn("graph"),
+        "reference": st.column_config.LinkColumn("reference", display_text="article"),
+    },
+    hide_index=True,
+    disabled=[
+        "graph",
+        "material",
+        "orientation",
+        "electrolyte",
+        "year",
+        "reference",
+    ],
+    key="selected_plots",
+)

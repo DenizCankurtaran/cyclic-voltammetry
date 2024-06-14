@@ -13,7 +13,7 @@ def FilterInput():
         with col2:
             column_input = st.selectbox(
                 "Column",
-                ("Name", "Material", "Orientation", "Electrolyte", "Year"),
+                ("Material", "Orientation", "Electrolyte", "Year"),
                 key=f"col-sel-input-{index}",
             )
 
