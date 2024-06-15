@@ -43,3 +43,19 @@ def create_we_electrode(we):
     if "source" in we:
         we_electrode["source"] = we["source"]
     return we_electrode
+
+
+# move to better folder?
+def get_electrolyte_composition(electrolyte):
+    composition = []
+    for component in electrolyte["components"]:
+
+        concentration = ""
+        if "concentration" in component:
+            concentration = component["concentration"]["value"]
+        if component["name"] == "water":
+            composition.append(f"{concentration} H2O")
+        else:
+            composition.append(f"{concentration} {component['name']}")
+
+    return " + ".join(composition)

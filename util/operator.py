@@ -1,10 +1,12 @@
 def apply_operator(operator, value: str, other):
+    other = other.lower()
+    value = value.lower()
     if operator == "contains":
         return other in value
     if operator == "not contains":
         return other not in value
     if operator == "equals":
-        return eq(value, other)
+        return value == other
     if operator == "starts with":
         return value.startswith(other)
     if operator == "ends with":
