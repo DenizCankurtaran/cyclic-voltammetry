@@ -1,11 +1,7 @@
 from db.entries import get_entries_with_material
 from components.filter_input import FilterInput
 from util.operator import apply_operator
-from util.electrode import (
-    create_we_electrode,
-    create_ce_electrode,
-    create_ref_electrode,
-)
+from util.electrode import create_we_electrode, get_electrolyte_composition
 from util.source import create_source
 import streamlit as st
 import pandas as pd
@@ -17,21 +13,6 @@ if "filter" not in st.session_state:
 
 
 material = "Ag"
-
-
-def get_electrode_composition(electrolyte):
-    composition = []
-    for component in electrolyte["components"]:
-
-        concentration = ""
-        if "concentration" in component:
-            concentration = component["concentration"]["value"]
-        if component["name"] == "water":
-            composition.append(f"{concentration} H2O")
-        else:
-            composition.append(f"{concentration} {component['name']}")
-
-    return " + ".join(composition)
 
 
 def get_table_entries(entries):
@@ -47,7 +28,7 @@ def get_table_entries(entries):
         scanrate_value = entry.figure_description.scan_rate.value
         scanrate_unit = entry.figure_description.scan_rate.unit
 
-        electrolyte = get_electrode_composition(
+        electrolyte = get_electrolyte_composition(
             entry.system.electrolyte.__dict__["_descriptor"]
         )
         try:
@@ -55,7 +36,8 @@ def get_table_entries(entries):
                 entry.get_electrode("WE").__dict__["_descriptor"]
             )
         except KeyError:
-            print("no WE electrode existing")
+            # TODO: can this happen?
+            we_electrode = {"material": ""}
 
         bibliography_year = ""
         if "year" in entry.bibliography.fields:
@@ -67,6 +49,7 @@ def get_table_entries(entries):
         table_entries.append(
             {
                 "plot": False,
+                "name": entry.package.resource_names[0],  # used to get db entry
                 "graph": f"data:image/png;base64,{encoded_image}",
                 "material": we_electrode["material"],
                 "orientation": we_electrode["crystallographicOrientation"],
@@ -90,12 +73,26 @@ def apply_filter_input(entry):
     return all(matches)
 
 
+def set_multiplot_state(filtered_table_entries, entries):
+    selected_table_entries_indices = [
+        row_index
+        for row_index in st.session_state["selected_plots"]["edited_rows"].keys()
+    ]
+    selected_table_entries = [
+        filtered_entries[index] for index in selected_table_entries_indices
+    ]
+    selected_entries = [
+        entries[table_entry["name"]] for table_entry in selected_table_entries
+    ]
+    st.session_state["multiplot"] = selected_entries
+
+
 FilterInput()
 
 entries_with_material = get_entries_with_material(material)
 
 table_entries = get_table_entries(entries_with_material)
-filtered_entries = filter(lambda x: apply_filter_input(x), table_entries)
+filtered_entries = list(filter(lambda x: apply_filter_input(x), table_entries))
 
 df = pd.DataFrame(filtered_entries)
 st.data_editor(
@@ -107,6 +104,15 @@ st.data_editor(
         "reference": st.column_config.LinkColumn("reference", display_text="article"),
     },
     hide_index=True,
+    column_order=[
+        "plot",
+        "graph",
+        "material",
+        "orientation",
+        "electrolyte",
+        "year",
+        "reference",
+    ],
     disabled=[
         "graph",
         "material",
@@ -117,3 +123,7 @@ st.data_editor(
     ],
     key="selected_plots",
 )
+
+if st.button("plot"):
+    set_multiplot_state(filtered_entries, entries_with_material)
+    st.switch_page("pages/2_graph.py")
