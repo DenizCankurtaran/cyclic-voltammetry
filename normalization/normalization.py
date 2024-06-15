@@ -25,8 +25,8 @@ def normalize_ref(entry, ref_electrode):
     }
     return refs[entry_ref] - refs[ref_electrode]
 
-# def normalize_electrolyte_concentration(entry, c_ref, ion='Br'):
-def normalize_electrolyte_concentration(entry, c_ref):
+def normalize_electrolyte_concentration(entry, c_ref, ion='Br'):
+# def normalize_electrolyte_concentration(entry, c_ref):
     """
     Applies nernstian corrections to the CV, based on the concentration of the 
     electrolyte concentration, more specifically the given ion.
@@ -34,8 +34,8 @@ def normalize_electrolyte_concentration(entry, c_ref):
     """
     components = entry.system.electrolyte.components
     print(components)
-    # comp = [i for i in components if ion in i['name']][0]
-    comp = [i for i in components][0]
+    comp = [i for i in components if ion in i['name']][0]
+    # comp = [i for i in components][0]
     c = comp['concentration']
     unit = c['unit'] ; val = cp(c['value'])
     if unit == 'mmol / l':
