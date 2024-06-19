@@ -37,7 +37,7 @@ def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=Non
 def plot_graph(entries, title):
     fig = go.Figure()
     for entry in entries:
-        print(entries)
+        # print(entries)
         fig.add_trace(
             go.Scatter(x=entry["df"]["E"], y=entry["df"]["j"], name=entry["identifier"], mode="lines")
         )
@@ -74,4 +74,14 @@ if normalize_scan_rate_checkbox:
     ref_scan_rate = 1.0 
 
 normalized_entries = normalize_entries(entries, ref_electrode, c_ref, ref_scan_rate)
-plot_graph(normalized_entries, "Normalized Entries")
+
+col1, col2 = st.columns([3, 2])
+with col1:
+    plot_graph(normalized_entries, "Normalized Entries")
+
+with col2:
+    data = {
+        "Property": ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
+        "Value": [47, 107.8682, "Ag"]
+    }
+    st.table(data)
