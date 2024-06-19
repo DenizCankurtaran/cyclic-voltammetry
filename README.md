@@ -16,5 +16,5 @@ db.save_entries('entries')
 execute
 
 ```
-streamlit run main.py
+streamlit run app.py
 ```
