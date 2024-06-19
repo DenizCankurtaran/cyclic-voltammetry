@@ -16,7 +16,6 @@ if "filter" not in st.session_state:
 
 # TODO: be able to use and filter for multiple materials
 material = st.session_state["materials"].split(" ")[0]
-print("material:", material, "materials:", st.session_state["materials"])
 
 
 def get_table_entries(entries):
