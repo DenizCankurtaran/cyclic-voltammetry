@@ -10,9 +10,9 @@ if "multiplot" not in st.session_state:
     st.session_state["multiplot"] = []
 
 entries = st.session_state["multiplot"]
-# entries = [copy.copy(entry) for entry in original_entries]
 st.set_page_config(layout="wide")
-st.title("Example Chart")
+st.title("Chart")
+
 
 def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=None):
     normalized_entries = []
@@ -34,19 +34,23 @@ def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=Non
         normalized_entries.append({"df": copied_df, "identifier": entry.identifier})
     return normalized_entries
 
+
 def plot_graph(entries, title):
     fig = go.Figure()
     for entry in entries:
-        # print(entries)
         fig.add_trace(
-            go.Scatter(x=entry["df"]["E"], y=entry["df"]["j"], name=entry["identifier"], mode="lines")
+            go.Scatter(
+                x=entry["df"]["E"],
+                y=entry["df"]["j"],
+                name=entry["identifier"],
+                mode="lines",
+            )
         )
     fig.update_layout(title=title)
     st.plotly_chart(fig)
 
-# print(st.session_state['multiplot'])
 
-normalize_checkbox = st.checkbox("Normalize", True)
+normalize_checkbox = st.checkbox("Normalize")
 normalize_electrolyte_checkbox = st.checkbox("Normalize Electrolyte Concentration")
 normalize_scan_rate_checkbox = st.checkbox("Normalize Scan Rate")
 
@@ -55,23 +59,27 @@ c_ref = None
 ref_scan_rate = None
 
 if normalize_checkbox:
-    ref_electrode = st.selectbox('Select Reference Electrode', [
-        'Ag/AgCl', 
-        'Ag/AgCl-sat', 
-        'Ag/AgCl_3M', 
-        'Hg/HgO/0.1 M NaOH', 
-        'RHE', 
-        'SCE', 
-        'wire', 
-        'SHE', 
-        'NCE'
-    ], index=0)
+    ref_electrode = st.selectbox(
+        "Select Reference Electrode",
+        [
+            "Ag/AgCl",
+            "Ag/AgCl-sat",
+            "Ag/AgCl_3M",
+            "Hg/HgO/0.1 M NaOH",
+            "RHE",
+            "SCE",
+            "wire",
+            "SHE",
+            "NCE",
+        ],
+        index=0,
+    )
 
 if normalize_electrolyte_checkbox:
     c_ref = 1.0
 
 if normalize_scan_rate_checkbox:
-    ref_scan_rate = 1.0 
+    ref_scan_rate = 1.0
 
 normalized_entries = normalize_entries(entries, ref_electrode, c_ref, ref_scan_rate)
 
@@ -82,6 +90,6 @@ with col1:
 with col2:
     data = {
         "Property": ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
-        "Value": ["aa", "aa", "Ag"]
+        "Value": ["aa", "aa", "Ag"],
     }
     st.table(data)
