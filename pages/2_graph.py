@@ -11,7 +11,7 @@ if "multiplot" not in st.session_state:
 
 entries = st.session_state["multiplot"]
 # entries = [copy.copy(entry) for entry in original_entries]
-
+st.set_page_config(layout="wide")
 st.title("Example Chart")
 
 def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=None):
@@ -82,6 +82,6 @@ with col1:
 with col2:
     data = {
         "Property": ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
-        "Value": [47, 107.8682, "Ag"]
+        "Value": ["aa", "aa", "Ag"]
     }
     st.table(data)
