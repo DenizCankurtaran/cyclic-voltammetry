@@ -8,11 +8,15 @@ import pandas as pd
 import base64
 
 
+if "materials" not in st.session_state:
+    st.session_state["materials"] = ""
+
 if "filter" not in st.session_state:
     st.session_state["filter"] = []
 
-
-material = "Ag"
+# TODO: be able to use and filter for multiple materials
+material = st.session_state["materials"].split(" ")[0]
+print("material:", material, "materials:", st.session_state["materials"])
 
 
 def get_table_entries(entries):

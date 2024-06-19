@@ -1,116 +1,113 @@
 import streamlit as st
 
-#90 Buttons
-#Color with Css
+
+def select_element(*args):
+    element = "".join(args)
+    materials = st.session_state["materials"]
+    if not materials:
+        materials = f"{element}"
+    else:
+        materials = f"{materials} {element}"
+    st.session_state["materials"] = materials
+
+
+# 90 Buttons
+# Color with Css
 def PeriodicTable():
 
-    col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18 = st.columns(18)
+    (
+        col1,
+        col2,
+        col3,
+        col4,
+        col5,
+        col6,
+        col7,
+        col8,
+        col9,
+        col10,
+        col11,
+        col12,
+        col13,
+        col14,
+        col15,
+        col16,
+        col17,
+        col18,
+    ) = st.columns(18)
 
     with col1:
-        st.button("H")
-        st.button("Li")
-        st.button("Na")
-        st.button("K")
-        st.button("Rb")
-        st.button("Cs")
-        st.button("Fr")
+        elements = ["H", "Li", "Na", "K", "Rb", "Cs", "Fr"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col2:
-        st.button("Be")
-        st.button("Mg")
-        st.button("Ca")
-        st.button("Sr")
-        st.button("Ba")
-        st.button("Ra")
+        elements = ["Be", "Mg", "Ca", "Sr", "Ba", "Ra"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col3:
-        st.button("Sc")
-        st.button("Y")
-        st.button("La")
-        st.button("Ac")
+        elements = ["Sc", "Y", "La", "Ac"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col4:
-        st.button("Ti")
-        st.button("Zr")
-        st.button("Hf")
-        st.button("Rf")
+        elements = ["Ti", "Zr", "Hf", "Rf"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col5:
-        st.button("V")
-        st.button("Nb")
-        st.button("Ta")
-        st.button("Db")
+        elements = ["V", "Nb", "Ta", "Db"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col6:
-        st.button("Cr")
-        st.button("Mo")
-        st.button("W")
-        st.button("Sg")
+        elements = ["Cr", "Mo", "W", "Sg"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col7:
-        st.button("Mn")
-        st.button("Tc")
-        st.button("Re")
-        st.button("Bh")
+        elements = ["Mn", "Tc", "Re", "Bh"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col8:
-        st.button("Fe")
-        st.button("Ru")
-        st.button("Os")
-        st.button("Hs")
+        elements = ["Fe", "Ru", "Os", "Hs"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col9:
-        st.button("Co")
-        st.button("Rh")
-        st.button("Ir")
-        st.button("Mt")
+        elements = ["Co", "Rh", "Ir", "Mt"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col10:
-        st.button("Ni")
-        st.button("Pd")
-        st.button("Pt")
-        st.button("Ds")
+        elements = ["Ni", "Pd", "Pt", "Ds"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col11:
-        st.button("Cu")
-        st.button("Ag")
-        st.button("Au")
-        st.button("Rg")
+        elements = ["Cu", "Ag", "Au", "Rg"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col12:
-        st.button("Zn")
-        st.button("Cd")
-        st.button("Hg")
-        st.button("Cn")
+        elements = ["Zn", "Cd", "Hg", "Cn"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col13:
-        st.button("B")
-        st.button("Al")
-        st.button("Ga")
-        st.button("In")
-        st.button("Tl")
-        st.button("Nh")
+        elements = ["B", "Al", "Ga", "In", "Tl", "Nh"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col14:
-        st.button("C")
-        st.button("Si")
-        st.button("Ge")
-        st.button("Sn")
-        st.button("Pb")
-        st.button("Fl")
+        elements = ["C", "Si", "Ge", "Sn", "Pb", "Fl"]
+
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col15:
-        st.button("N")
-        st.button("P")
-        st.button("As")
-        st.button("Sb")
-        st.button("Bi")
-        st.button("Mc")
+        elements = ["N", "P", "As", "Sb", "Bi", "Mc"]
+
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col16:
-        st.button("O")
-        st.button("S")
-        st.button("Se")
-        st.button("Te")
-        st.button("Po")
-        st.button("Lv")
+        elements = ["O", "S", "Se", "Te", "Po", "Lv"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
     with col17:
-        st.button("F")
-        st.button("Cl")
-        st.button("Br")
-        st.button("I")
-        st.button("At")
-        st.button("Ts")
+        elements = ["F", "Cl", "Br", "I", "At", "Ts"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
+
     with col18:
-        st.button("He")
-        st.button("Ne")
-        st.button("Ar")
-        st.button("Kr")
-        st.button("Xe")
-        st.button("Rn")
-        st.button("Og")
+        elements = ["He", "Ne", "Ar", "Kr", "Xe", "Rn", "Og"]
+        for element in elements:
+            st.button(element, on_click=select_element, args=element)
