@@ -1,7 +1,5 @@
 import streamlit as st
 import plotly.graph_objs as go
-from db.entries import get_entries
-from db.filter import filter_Ag100Br
 from normalization.normalization import (
     normalize_ref,
     normalize_electrolyte_concentration,
@@ -11,56 +9,79 @@ from normalization.normalization import (
 if "multiplot" not in st.session_state:
     st.session_state["multiplot"] = []
 
-entries = get_entries(filter_Ag100Br)
+entries = st.session_state["multiplot"]
+# entries = [copy.copy(entry) for entry in original_entries]
+st.set_page_config(layout="wide")
 st.title("Example Chart")
 
-
-def normalize_entries(entries):
+def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=None):
+    normalized_entries = []
     for entry in entries:
-        delta_ref = normalize_ref(entry, "Ag/AgCl")
-        entry.df["E"] = entry.df["E"] + delta_ref
-    return entries
-
-
-def normalize_entries_electrolyte(entries):
-    c_ref = 1.0
-    for entry in entries:
-        delta_ref = normalize_electrolyte_concentration(entry, c_ref)
-        entry.df["E"] = entry.df["E"] + delta_ref
-    return entries
-
-
-def normalize_entries_scan_rate(entries):
-    ref_scan_rate = 1.0
-    for entry in entries:
-        delta_ref = normalize_scan_rate(entry, ref_scan_rate)
-        entry.df["j"] = entry.df["j"] * delta_ref
-    return entries
-
+        copied_df = entry.df.copy()
+        if ref_electrode:
+            delta_ref = normalize_ref(entry, ref_electrode)
+            copied_df["E"] = copied_df["E"] + delta_ref
+        if c_ref is not None:
+            try:
+                delta_ref = normalize_electrolyte_concentration(entry, c_ref)
+                copied_df["E"] = copied_df["E"] + delta_ref
+            except:
+                print("No electrolyte entry found")
+                continue
+        if ref_scan_rate is not None:
+            delta_ref = normalize_scan_rate(entry, ref_scan_rate)
+            copied_df["j"] = copied_df["j"] * delta_ref
+        normalized_entries.append({"df": copied_df, "identifier": entry.identifier})
+    return normalized_entries
 
 def plot_graph(entries, title):
     fig = go.Figure()
-    for CV in entries:
+    for entry in entries:
+        # print(entries)
         fig.add_trace(
-            go.Scatter(x=CV.df["E"], y=CV.df["j"], name=CV.identifier, mode="lines")
+            go.Scatter(x=entry["df"]["E"], y=entry["df"]["j"], name=entry["identifier"], mode="lines")
         )
     fig.update_layout(title=title)
     st.plotly_chart(fig)
 
-print(st.session_state['multiplot'])
+# print(st.session_state['multiplot'])
 
-normalize_checkbox = st.checkbox("Normalize")
+normalize_checkbox = st.checkbox("Normalize", True)
 normalize_electrolyte_checkbox = st.checkbox("Normalize Electrolyte Concentration")
 normalize_scan_rate_checkbox = st.checkbox("Normalize Scan Rate")
 
+ref_electrode = None
+c_ref = None
+ref_scan_rate = None
+
 if normalize_checkbox:
-    entries = normalize_entries(entries)
-    plot_graph(entries, "Normalized Entries")
+    ref_electrode = st.selectbox('Select Reference Electrode', [
+        'Ag/AgCl', 
+        'Ag/AgCl-sat', 
+        'Ag/AgCl_3M', 
+        'Hg/HgO/0.1 M NaOH', 
+        'RHE', 
+        'SCE', 
+        'wire', 
+        'SHE', 
+        'NCE'
+    ], index=0)
 
 if normalize_electrolyte_checkbox:
-    entries = normalize_entries_electrolyte(entries)
-    plot_graph(entries, "Electrolyte Concentration")
+    c_ref = 1.0
 
 if normalize_scan_rate_checkbox:
-    entries = normalize_entries_scan_rate(entries)
-    plot_graph(entries, "Scan rate")
+    ref_scan_rate = 1.0 
+
+normalized_entries = normalize_entries(entries, ref_electrode, c_ref, ref_scan_rate)
+
+col1, col2 = st.columns([3, 2])
+with col1:
+    plot_graph(normalized_entries, "Normalized Entries")
+
+with col2:
+    data = {
+        "Property": ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
+        "Value": ["aa", "aa", "Ag"]
+    }
+    st.table(data)

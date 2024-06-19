@@ -32,6 +32,7 @@ def normalize_electrolyte_concentration(entry, c_ref, ion='Br'):
     The introduced shift is added to the x-axis.
     """
     components = entry.system.electrolyte.components
+    print(components)
     comp = [i for i in components if ion in i['name']][0]
     c = comp['concentration']
     unit = c['unit'] ; val = cp(c['value'])
