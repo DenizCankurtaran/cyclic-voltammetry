@@ -52,7 +52,11 @@ def get_electrolyte_composition(electrolyte):
 
         concentration = ""
         if "concentration" in component:
-            concentration = component["concentration"]["value"]
+            if "value" in component["concentration"]:
+                concentration = component["concentration"]["value"]
+            else:
+                # TODO: was ist wenn es keine value in der concentration gibt?
+                concentration = ""
         if component["name"] == "water":
             composition.append(f"{concentration} H2O")
         else:
