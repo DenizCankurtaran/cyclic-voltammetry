@@ -81,23 +81,4 @@ if normalize_scan_rate_checkbox:
 
 normalized_entries = normalize_entries(entries, ref_electrode, c_ref, ref_scan_rate)
 
-col1, col2 = st.columns([3, 2])
-
-with col1:
-    plot_graph(normalized_entries, "Normalized Entries")
-
-with col2:
-    identifiers = [entry["identifier"] for entry in normalized_entries]
-    for entry in normalized_entries:
-        entry["url"] = "/graphdetail"
-    df = pd.DataFrame({
-        "Elements": identifiers,
-        "url": [entry["url"] for entry in normalized_entries]
-    })
-    st.data_editor(
-        df,
-        column_config={
-            "url": st.column_config.LinkColumn("Elements", display_text="Detail View"),
-        },
-        hide_index=True
-    )
+plot_graph(normalized_entries, "Normalized Entries")
