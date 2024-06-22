@@ -63,7 +63,6 @@ def get_table_entries(entries):
                 "electrolyte": electrolyte,
                 "year": bibliography_year,
                 "reference": source["url"],
-                "system": entry.system.electrolyte.type,
             }
         )
     return table_entries
@@ -123,7 +122,6 @@ st.data_editor(
         "electrolyte",
         "year",
         "reference",
-        "system",
     ],
     disabled=[
         "graph",
