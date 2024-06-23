@@ -4,16 +4,16 @@ from normalization.normalization import (
     normalize_scan_rate,
 )
 
-def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=None):
+def normalize_entries(entries, ref_electrode=None, c_ref=None, ion=None, ref_scan_rate=None):
     normalized_entries = []
     for entry in entries:
         copied_df = entry.df.copy()
         if ref_electrode:
             delta_ref = normalize_ref(entry, ref_electrode)
             copied_df["E"] = copied_df["E"] + delta_ref
-        if c_ref is not None:
+        if c_ref and ion is not None:
             try:
-                delta_ref = normalize_electrolyte_concentration(entry, c_ref)
+                delta_ref = normalize_electrolyte_concentration(entry, c_ref, ion)
                 copied_df["E"] = copied_df["E"] + delta_ref
             except:
                 print("No electrolyte entry found")
