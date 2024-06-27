@@ -6,6 +6,7 @@ from util.source import create_source
 import streamlit as st
 import pandas as pd
 import base64
+import frictionless
 
 
 if "materials" not in st.session_state:
