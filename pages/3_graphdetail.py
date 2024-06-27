@@ -4,6 +4,12 @@ import pandas as pd
 from util.normalize_entries import normalize_entries
 from util.plot_graph import plot_graph
 
+if "name" not in st.query_params:
+    st.query_params["name"] = []
+
+name = st.query_params["name"]
+print(name)
+
 if "multiplot" not in st.session_state:
     st.session_state["multiplot"] = []
 
