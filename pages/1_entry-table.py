@@ -3,9 +3,9 @@ from components.filter_input import FilterInput
 from util.operator import apply_operator
 from util.electrode import create_we_electrode, get_electrolyte_composition
 from util.source import create_source
+from util.get_thumbnail import get_thumbnail
 import streamlit as st
 import pandas as pd
-import base64
 import frictionless
 
 
@@ -53,12 +53,12 @@ def get_table_entries(entries):
 
         source = create_source(entry.source.__dict__["_descriptor"])
 
-        encoded_image = base64.b64encode(entry.thumbnail()).decode("utf-8")
+        graph_thumbnail = get_thumbnail(entry)
         table_entries.append(
             {
                 "plot": False,
                 "name": entry.package.resource_names[0],  # used to get db entry
-                "graph": f"data:image/png;base64,{encoded_image}",
+                "graph": graph_thumbnail,
                 "material": we_electrode["material"],
                 "orientation": we_electrode["crystallographicOrientation"],
                 "electrolyte": electrolyte,
