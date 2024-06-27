@@ -1,4 +1,4 @@
-from db.entries import get_entries_with_material
+from db.entries import get_entries_with_materials_and_system_type
 from components.filter_input import FilterInput
 from util.operator import apply_operator
 from util.electrode import create_we_electrode, get_electrolyte_composition
@@ -6,16 +6,21 @@ from util.source import create_source
 import streamlit as st
 import pandas as pd
 import base64
+import frictionless
 
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
 
+if "system" not in st.session_state:
+    st.session_state["system"] = ""
+
 if "filter" not in st.session_state:
     st.session_state["filter"] = []
 
-# TODO: be able to use and filter for multiple materials
-material = st.session_state["materials"].split(" ")[0]
+materials = st.session_state["materials"].split(" ")
+
+system_type = st.session_state["system"]
 
 
 def get_table_entries(entries):
@@ -92,9 +97,12 @@ def set_multiplot_state(filtered_table_entries, entries):
 
 FilterInput()
 
-entries_with_material = get_entries_with_material(material)
+entries_with_materials_and_system_type = get_entries_with_materials_and_system_type(
+    materials, system_type
+)
 
-table_entries = get_table_entries(entries_with_material)
+
+table_entries = get_table_entries(entries_with_materials_and_system_type)
 filtered_entries = list(filter(lambda x: apply_filter_input(x), table_entries))
 
 df = pd.DataFrame(filtered_entries)
@@ -128,5 +136,5 @@ st.data_editor(
 )
 
 if st.button("plot"):
-    set_multiplot_state(filtered_entries, entries_with_material)
+    set_multiplot_state(filtered_entries, entries_with_materials_and_system_type)
     st.switch_page("pages/2_graph.py")

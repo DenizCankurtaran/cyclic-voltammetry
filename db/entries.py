@@ -1,6 +1,6 @@
 from unitpackage.cv.cv_entry import CVEntry as Entry
 from unitpackage.cv.cv_collection import CVCollection
-from db.filter import filter_material
+from db.filter import filter_materials_and_system_type
 import os
 
 _db = None
@@ -16,12 +16,17 @@ def get_db():
         return _db
 
 
+def get_all_entries():
+    db = get_db()
+    return db
+
+
 def get_entries(filter):
     db = get_db()
     db_filtered = db.filter(lambda entry: filter(entry))
     return db_filtered
 
 
-def get_entries_with_material(material):
+def get_entries_with_materials_and_system_type(materials, system_type):
     db = get_db()
-    return db.filter(lambda entry: filter_material(entry, material))
+    return db.filter(lambda entry: filter_materials_and_system_type(entry, materials, system_type))
