@@ -1,10 +1,8 @@
 import streamlit as st
 import plotly.graph_objs as go
-from normalization.normalization import (
-    normalize_ref,
-    normalize_electrolyte_concentration,
-    normalize_scan_rate,
-)
+import pandas as pd
+from util.normalize_entries import normalize_entries
+from util.plot_graph import plot_graph
 
 if "multiplot" not in st.session_state:
     st.session_state["multiplot"] = []
@@ -13,83 +11,65 @@ entries = st.session_state["multiplot"]
 st.set_page_config(layout="wide")
 st.title("Chart")
 
-
-def normalize_entries(entries, ref_electrode=None, c_ref=None, ref_scan_rate=None):
-    normalized_entries = []
-    for entry in entries:
-        copied_df = entry.df.copy()
-        if ref_electrode:
-            delta_ref = normalize_ref(entry, ref_electrode)
-            copied_df["E"] = copied_df["E"] + delta_ref
-        if c_ref is not None:
-            try:
-                delta_ref = normalize_electrolyte_concentration(entry, c_ref)
-                copied_df["E"] = copied_df["E"] + delta_ref
-            except:
-                print("No electrolyte entry found")
-                continue
-        if ref_scan_rate is not None:
-            delta_ref = normalize_scan_rate(entry, ref_scan_rate)
-            copied_df["j"] = copied_df["j"] * delta_ref
-        normalized_entries.append({"df": copied_df, "identifier": entry.identifier})
-    return normalized_entries
-
-
-def plot_graph(entries, title):
-    fig = go.Figure()
-    for entry in entries:
-        fig.add_trace(
-            go.Scatter(
-                x=entry["df"]["E"],
-                y=entry["df"]["j"],
-                name=entry["identifier"],
-                mode="lines",
-            )
-        )
-    fig.update_layout(title=title)
-    st.plotly_chart(fig)
-
-
-normalize_checkbox = st.checkbox("Normalize")
-normalize_electrolyte_checkbox = st.checkbox("Normalize Electrolyte Concentration")
-normalize_scan_rate_checkbox = st.checkbox("Normalize Scan Rate")
-
 ref_electrode = None
 c_ref = None
+ion = None
 ref_scan_rate = None
 
-if normalize_checkbox:
-    ref_electrode = st.selectbox(
-        "Select Reference Electrode",
-        [
-            "Ag/AgCl",
-            "Ag/AgCl-sat",
-            "Ag/AgCl_3M",
-            "Hg/HgO/0.1 M NaOH",
-            "RHE",
-            "SCE",
-            "wire",
-            "SHE",
-            "NCE",
-        ],
-        index=0,
-    )
+col1, col2 = st.columns([2, 1])
 
-if normalize_electrolyte_checkbox:
-    c_ref = 1.0
+with col1:
+    normalize_checkbox = st.checkbox("Normalize", True)
+    normalize_electrolyte_checkbox = st.checkbox("Normalize Electrolyte Concentration")
+    normalize_scan_rate_checkbox = st.checkbox("Normalize Scan Rate")
 
-if normalize_scan_rate_checkbox:
-    ref_scan_rate = 1.0
+with col2:
+    if normalize_checkbox:
+        ref_electrode = st.selectbox('Select Reference Electrode', [
+            'Ag/AgCl', 
+            'Ag/AgCl-sat', 
+            'Ag/AgCl_3M', 
+            'Hg/HgO/0.1 M NaOH', 
+            'RHE', 
+            'SCE', 
+            'wire', 
+            'SHE', 
+            'NCE'
+        ], index=7)
 
-normalized_entries = normalize_entries(entries, ref_electrode, c_ref, ref_scan_rate)
+    if normalize_electrolyte_checkbox:
+        ion = st.selectbox('Select Reference Electrolyte', [
+            'Br',
+        ], index=0)
+        c_ref = 1.0
 
-col1, col2 = st.columns([3, 2])
+    if normalize_scan_rate_checkbox:
+        ref_scan_rate = st.selectbox('Select Reference Scanrate', [
+            1.0, 
+            2.0,
+            3.0,
+            4.0,
+        ], index=0)
+
+normalized_entries = normalize_entries(entries, ref_electrode, c_ref, ion, ref_scan_rate)
+
+col3, col4 = st.columns([3, 2])
+
 with col1:
     plot_graph(normalized_entries, "Normalized Entries")
 
 with col2:
-    data = {
-        "Property": ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
-        "Value": ["aa", "aa", "Ag"],
-    }
-    st.table(data)
+    identifiers = [entry["identifier"] for entry in normalized_entries]
+    for entry in normalized_entries:
+        entry["url"] = "/graphdetail"
+    df = pd.DataFrame({
+        "Elements": identifiers,
+        "url": [entry["url"] for entry in normalized_entries]
+    })
+    st.data_editor(
+        df,
+        column_config={
+            "url": st.column_config.LinkColumn("Elements", display_text="Detail View"),
+        },
+        hide_index=True
+    )

@@ -25,7 +25,7 @@ def normalize_ref(entry, ref_electrode):
     }
     return refs[entry_ref] - refs[ref_electrode]
 
-def normalize_electrolyte_concentration(entry, c_ref, ion='Br'):
+def normalize_electrolyte_concentration(entry, c_ref, ion):
     """
     Applies nernstian corrections to the CV, based on the concentration of the 
     electrolyte concentration, more specifically the given ion.
