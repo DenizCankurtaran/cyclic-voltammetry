@@ -91,7 +91,7 @@ for index, entry in enumerate(normalized_entries):
 
     graphs.append(get_thumbnail(entries[index]))
 
-    urls.append(f"/graphdetail?name={identifier}")
+    urls.append(f"/detail?name={identifier}")
 
 df = pd.DataFrame({"Name": identifiers, "Graph": graphs, "url": urls})
 
