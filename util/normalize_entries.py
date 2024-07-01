@@ -16,7 +16,7 @@ def normalize_entries(entries, ref_electrode=None, c_ref=None, ion=None, ref_sca
                 delta_ref = normalize_electrolyte_concentration(entry, c_ref, ion)
                 copied_df["E"] = copied_df["E"] + delta_ref
             except:
-                print("No electrolyte entry found")
+                print(f"No electrolyte entry found for {entry}")
                 continue
         if ref_scan_rate is not None:
             delta_ref = normalize_scan_rate(entry, ref_scan_rate)

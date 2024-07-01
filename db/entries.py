@@ -30,3 +30,10 @@ def get_entries(filter):
 def get_entries_with_materials_and_system_type(materials, system_type):
     db = get_db()
     return db.filter(lambda entry: filter_materials_and_system_type(entry, materials, system_type))
+
+
+def get_entry_by_name(name):
+    db = get_db()
+
+    db_filtered = [entry for entry in db if name == entry.identifier]
+    return db_filtered
