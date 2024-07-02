@@ -1,10 +1,46 @@
 import streamlit as st
 from components.periodic_buttons import PeriodicTable
 from db.entries import get_all_entries
+from streamlit_navigation_bar import st_navbar
+
 
 st.set_page_config(layout="wide")
-
 st.title("Cyclic Voltammetry")
+
+pages = ["About", "GitHub"]
+urls = {"GitHub": "https://https://github.com/DenizCankurtaran/cyclic-voltammetry"}
+styles = {
+    "nav": {
+        "background-color": "royalblue",
+        "justify-content": "left",
+    },
+    "img": {
+        "padding-right": "14px",
+    },
+    "span": {
+        "color": "white",
+        "padding": "14px",
+    },
+    "active": {
+        "background-color": "white",
+        "color": "var(--text-color)",
+        "font-weight": "normal",
+        "padding": "14px",
+    }
+}
+options = {
+    "show_menu": False,
+    "show_sidebar": False,
+}
+
+page = st_navbar(
+    pages,
+    logo_path="images/echemhome.svg",
+    urls=urls,
+    styles=styles,
+    options=options,
+)
+
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
