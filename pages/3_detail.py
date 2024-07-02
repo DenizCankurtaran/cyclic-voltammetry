@@ -3,7 +3,7 @@ import plotly.graph_objs as go
 import pandas as pd
 from util.normalize_entries import normalize_entries
 from util.plot_graph import plot_graph
-from db.entries import get_entry_by_name
+from db.entries import get_all_entries
 
 if "name" not in st.query_params:
     st.query_params["name"] = []
@@ -11,7 +11,7 @@ if "name" not in st.query_params:
 name = st.query_params["name"]
 
 all_entries = get_all_entries()
-entry = entries[name]
+entry = all_entries[name]
 
 entries = normalize_entries([entry], ref_electrode="SHE", c_ref=None, ion=None, ref_scan_rate=None)
 
@@ -26,7 +26,7 @@ with col2:
     tab1, tab2, tab3 = st.tabs(["ELECTROCHEMICAL SYSTEM", "ENTRY SOURCE", "BIBLIOGRAPHY"])
     with tab1:
         st.header("ELECTROCHEMICAL SYSTEM")
-        electrochemical_system = get_entries[0].system
+        electrochemical_system = entry.system
         
         for electrode in electrochemical_system["electrodes"]:
             st.subheader(f"{electrode['function'].capitalize()} ({electrode['name']}):")
@@ -62,7 +62,7 @@ with col2:
                 
     with tab2:
         st.header("ENTRY SOURCE")
-        entry_source = get_entries[0].source
+        entry_source = entry.source
         st.text(f"Citation key: {entry_source.citation_key}")
         st.text(f"URL: {entry_source.url}")
         st.text(f"Techniques: {','.join(entry_source.techniques)}")
@@ -71,7 +71,7 @@ with col2:
 
     with tab3:
         st.header("BIBLIOGRAPHY")
-        bibliography = get_entries[0].bibliography
+        bibliography = entry.bibliography
         st.text(f"Type: {bibliography.type}")
 
         fields_dict = dict(bibliography.fields)
