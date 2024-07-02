@@ -1,5 +1,5 @@
 import streamlit as st
-from components.custom_button import custom_button
+from components.custom_button import ChangeButtonColour
 
 def select_element(element):
     materials = st.session_state.get("materials", "")
@@ -9,23 +9,15 @@ def select_element(element):
         materials = f"{materials} {element}"
     st.session_state["materials"] = materials
 
-noble_gases_css = {
-    "background-color": "#AC1258",
-    "color": "white",
-    "border": "1px solid black",
-    "padding": "10px",
-    "border-radius": "5px",
-    "cursor": "pointer",
-}
+ # Define colors for specific buttons
 
-reactive_nonmetal_css = {
-    "background-color": "#3E50B5",
-    "color": "white",
-    "border": "1px solid black",
-    "padding": "10px",
-    "border-radius": "5px",
-    "cursor": "pointer",
-}  
+button_colors = {
+        "H": {"font_color": "black", "background_color": "red"},
+        "He": {"font_color": "black", "background_color": "lightgray"},
+        "Li": {"font_color": "black", "background_color": "lightyellow"},
+        "Be": {"font_color": "black", "background_color": "lightgreen"}
+        # Add more elements and their colors as needed
+    }    
 
 def PeriodicTable():
     st.title("Interactive Periodic Table")
@@ -34,24 +26,15 @@ def PeriodicTable():
     col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18 = st.columns(18)
     
     with col1:
-        custom_button("H", on_click=select_element, args="H",css=reactive_nonmetal_css)
+        st.button("H", on_click=select_element, args=("H",))
     with col18:
-        custom_button("He", on_click=select_element, args="He",css=noble_gases_css)
-    
+        st.button("He", on_click=select_element, args=("He",))
+
     # Layout the second row
     col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18 = st.columns(18)
     
     with col1:
         st.button("Li", on_click=select_element, args=("Li",))
-        
-        #m = st.markdown("""
-        #<style>
-        #div.stButton > button:first-child {
-        #    background-color: rgb(204, 49, 49);
-        #}
-        #</style>""", unsafe_allow_html=True)
-        #b = st.button("Li", on_click=select_element, args=("Li",))
-
     with col2:
         st.button("Be", on_click=select_element, args=("Be",))
     with col13:
@@ -247,5 +230,13 @@ def PeriodicTable():
     with col18:
         st.button("Og", on_click=select_element, args=("Og",))
 
+# Apply the colors to the buttons
+    for element, colors in button_colors.items():
+        ChangeButtonColour(element, colors["font_color"], colors["background_color"])    
+ 
+
+
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
+
+
