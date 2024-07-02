@@ -10,8 +10,10 @@ if "name" not in st.query_params:
 
 name = st.query_params["name"]
 
-get_entries = get_entry_by_name(name)
-entries = normalize_entries(get_entries, ref_electrode="SHE", c_ref=None, ion=None, ref_scan_rate=None)
+all_entries = get_all_entries()
+entry = entries[name]
+
+entries = normalize_entries([entry], ref_electrode="SHE", c_ref=None, ion=None, ref_scan_rate=None)
 
 st.set_page_config(layout="wide")
 st.title(f"Detail view for {name}")
