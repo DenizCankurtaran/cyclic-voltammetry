@@ -12,10 +12,113 @@ def select_element(element):
  # Define colors for specific buttons
 
 button_colors = {
-        "H": {"font_color": "black", "background_color": "red"},
-        "He": {"font_color": "black", "background_color": "lightgray"},
-        "Li": {"font_color": "black", "background_color": "lightyellow"},
-        "Be": {"font_color": "black", "background_color": "lightgreen"}
+    #DSDSDSDS
+        "H": {"font_color": "white", "background_color": "#3C4FB3"},
+
+        "C": {"font_color": "white", "background_color": "#7280C3"},
+
+        "N": {"font_color": "white", "background_color": "#3C4FB3"},
+        "O": {"font_color": "white", "background_color": "#3C4FB3"},
+        "P": {"font_color": "white", "background_color": "#3C4FB3"},
+        "S": {"font_color": "white", "background_color": "#3C4FB3"},
+        "Se": {"font_color": "white", "background_color": "#3C4FB3"},
+        "F": {"font_color": "white", "background_color": "#3C4FB3"},
+        "Cl": {"font_color": "white", "background_color": "#3C4FB3"},
+        "Br": {"font_color": "white", "background_color": "#3C4FB3"},
+        "I": {"font_color": "white", "background_color": "#3C4FB3"},
+
+        "Li": {"font_color": "white", "background_color": "#00766A"},
+        "Na": {"font_color": "white", "background_color": "#00766A"},
+        "K": {"font_color": "white", "background_color": "#00766A"},
+        "Rb": {"font_color": "white", "background_color": "#00766A"},
+        "Cs": {"font_color": "white", "background_color": "#00766A"},
+        "Fr": {"font_color": "white", "background_color": "#00766A"},
+
+        "Be": {"font_color": "white", "background_color": "#C42529"},
+        "Mg": {"font_color": "white", "background_color": "#C42529"},
+        "Ca": {"font_color": "white", "background_color": "#C42529"},
+        "Sr": {"font_color": "white", "background_color": "#C42529"},
+        "Ba": {"font_color": "white", "background_color": "#C42529"},
+        "Ra": {"font_color": "white", "background_color": "#C42529"},
+
+        "La": {"font_color": "white", "background_color": "#2391EB"},
+
+        "Ac": {"font_color": "white", "background_color": "#745148"},
+
+        "He": {"font_color": "white", "background_color": "#AA1258"},
+        "Ne": {"font_color": "white", "background_color": "#AA1258"},
+        "Ar": {"font_color": "white", "background_color": "#AA1258"},
+        "Kr": {"font_color": "white", "background_color": "#AA1258"},
+        "Xe": {"font_color": "white", "background_color": "#AA1258"},
+        "Rn": {"font_color": "white", "background_color": "#AA1258"},
+
+        "B": {"font_color": "white", "background_color": "#817518"},
+        "Si": {"font_color": "white", "background_color": "#817518"},
+        "Ge": {"font_color": "white", "background_color": "#817518"},
+        "As": {"font_color": "white", "background_color": "#817518"},
+        "Sb": {"font_color": "white", "background_color": "#817518"},
+        "Te": {"font_color": "white", "background_color": "#817518"},
+        "At": {"font_color": "white", "background_color": "#817518"},
+
+        "Al": {"font_color": "white", "background_color": "#2C7A30"},
+        "Ga": {"font_color": "white", "background_color": "#2C7A30"},
+        "In": {"font_color": "white", "background_color": "#2C7A30"},
+        "Sn": {"font_color": "white", "background_color": "#2C7A30"},
+        "Tl": {"font_color": "white", "background_color": "#2C7A30"},
+        "Pb": {"font_color": "white", "background_color": "#2C7A30"},
+        "Bi": {"font_color": "white", "background_color": "#2C7A30"},
+        "Po": {"font_color": "white", "background_color": "#2C7A30"},
+
+        "Mt": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Ds": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Rg": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Cn": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Nh": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Fl": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Mc": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Lv": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Ts": {"font_color": "white", "background_color": "#5F5F5F"},
+        "Og": {"font_color": "white", "background_color": "#5F5F5F"},
+
+        "Sc": {"font_color": "white", "background_color": "#691A98"},
+        "Ti": {"font_color": "white", "background_color": "#691A98"},
+        "V": {"font_color": "white", "background_color": "#691A98"},
+        "Cr": {"font_color": "white", "background_color": "#691A98"},
+        "Mn": {"font_color": "white", "background_color": "#691A98"},
+        "Fe": {"font_color": "white", "background_color": "#691A98"},
+        "Co": {"font_color": "white", "background_color": "#691A98"},
+        "Ni": {"font_color": "white", "background_color": "#691A98"},
+        "Cu": {"font_color": "white", "background_color": "#691A98"},
+        "Zn": {"font_color": "white", "background_color": "#691A98"},
+        "Y": {"font_color": "white", "background_color": "#691A98"},
+        "Zr": {"font_color": "white", "background_color": "#691A98"},
+        "Nb": {"font_color": "white", "background_color": "#691A98"},
+        "Mo": {"font_color": "white", "background_color": "#691A98"},
+        "Tc": {"font_color": "white", "background_color": "#691A98"},
+        "Ru": {"font_color": "white", "background_color": "#691A98"},
+        "Rh": {"font_color": "white", "background_color": "#691A98"},
+        "Pd": {"font_color": "white", "background_color": "#691A98"},
+        "Ag": {"font_color": "white", "background_color": "#691A98"},
+        "Cd": {"font_color": "white", "background_color": "#691A98"},
+        "Hf": {"font_color": "white", "background_color": "#691A98"},
+        "Ta": {"font_color": "white", "background_color": "#691A98"},
+        "W": {"font_color": "white", "background_color": "#691A98"},
+        "Re": {"font_color": "white", "background_color": "#691A98"},
+        "Os": {"font_color": "white", "background_color": "#691A98"},
+        "Ir": {"font_color": "white", "background_color": "#691A98"},
+        "Pt": {"font_color": "white", "background_color": "#691A98"},
+        "Au": {"font_color": "white", "background_color": "#691A98"},
+        "Hg": {"font_color": "white", "background_color": "#691A98"},
+        "Rf": {"font_color": "white", "background_color": "#691A98"},
+        "Db": {"font_color": "white", "background_color": "#691A98"},
+        "Sg": {"font_color": "white", "background_color": "#691A98"},
+        "Bh": {"font_color": "white", "background_color": "#691A98"},
+        "Hs": {"font_color": "white", "background_color": "#691A98"},
+        
+
+
+
+        
         # Add more elements and their colors as needed
     }    
 
