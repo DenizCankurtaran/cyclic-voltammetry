@@ -1,5 +1,5 @@
 import streamlit as st
-from components.periodic_buttons import PeriodicTable
+from components.periodic_table import PeriodicTable
 from db.entries import get_all_entries
 
 st.set_page_config(layout="wide")
