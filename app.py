@@ -44,6 +44,7 @@ with select_system:
             "Non aqueous",
         ],
         index=0,
+        label_visibility="collapsed"
     )
     if select_system_value == "Aqueous":
         st.session_state["system"] = "aqueous"
