@@ -113,21 +113,28 @@ def PeriodicTable(all_materials):
 
 def ElementButton(element, all_materials):
     background_color = getElementButtonColor(element)
-    temp = f"background-color: {background_color}; color: white; width: 40px; height: 40px; "
-    temp2 = "{" + temp + "}"
-    temp3 = f"background-color: {background_color}; opacity: 0.5;"
-    temp4 = "{" + temp3 + "}"
-    temp5 = f"word-break: keep-all"
-    temp6 = "{" + temp5 + "}"
-    st.markdown(f"""
-    <style>
-                .element-container:has(#button-{element}) + div button {temp2}
-                .element-container:has(#button-{element}) + div button:disabled {temp4}
-                .element-container:has(#button-{element}) + div button * {temp6}
-                
-    </style>""", unsafe_allow_html=True)
+    button_css = f"background-color: {background_color}; color: white; width: 40px; height: 40px; "
+    disabled_button_css = f"background-color: {background_color}; opacity: 0.5;"
+    p_css = f"word-break: keep-all"
 
-    st.markdown(f'<span id="button-{element}"></span>', unsafe_allow_html=True)
+    st.markdown(
+        "<style>"
+        + f".element-container:has(#button-{element}) + div button"
+        + "{"
+        + button_css
+        + "}"
+        + f".element-container:has(#button-{element}) + div button:disabled"
+        + "{"
+        + disabled_button_css
+        + "}"
+        + f".element-container:has(#button-{element}) + div button *"
+        + "{"
+        + p_css
+        + "}"
+        + "</style>"
+        + f'<span id="button-{element}"></span>',
+        unsafe_allow_html=True,
+    )
 
     st.button(
         element,
@@ -136,12 +143,11 @@ def ElementButton(element, all_materials):
         disabled=element not in all_materials,
     )
 
+
 def getElementButtonColor(element):
     button_colors = {
         "H": "#3C4FB3",
-
         "C": "#7280C3",
-
         "N": "#3C4FB3",
         "O": "#3C4FB3",
         "P": "#3C4FB3",
@@ -151,32 +157,26 @@ def getElementButtonColor(element):
         "Cl": "#3C4FB3",
         "Br": "#3C4FB3",
         "I": "#3C4FB3",
-
         "Li": "#00766A",
         "Na": "#00766A",
         "K": "#00766A",
         "Rb": "#00766A",
         "Cs": "#00766A",
         "Fr": "#00766A",
-
         "Be": "#C42529",
         "Mg": "#C42529",
         "Ca": "#C42529",
         "Sr": "#C42529",
         "Ba": "#C42529",
         "Ra": "#C42529",
-
         "La": "#2391EB",
-
         "Ac": "#745148",
-
         "He": "#AA1258",
         "Ne": "#AA1258",
         "Ar": "#AA1258",
         "Kr": "#AA1258",
         "Xe": "#AA1258",
         "Rn": "#AA1258",
-
         "B": "#817518",
         "Si": "#817518",
         "Ge": "#817518",
@@ -184,7 +184,6 @@ def getElementButtonColor(element):
         "Sb": "#817518",
         "Te": "#817518",
         "At": "#817518",
-
         "Al": "#2C7A30",
         "Ga": "#2C7A30",
         "In": "#2C7A30",
@@ -193,7 +192,6 @@ def getElementButtonColor(element):
         "Pb": "#2C7A30",
         "Bi": "#2C7A30",
         "Po": "#2C7A30",
-
         "Mt": "#5F5F5F",
         "Ds": "#5F5F5F",
         "Rg": "#5F5F5F",
@@ -204,7 +202,6 @@ def getElementButtonColor(element):
         "Lv": "#5F5F5F",
         "Ts": "#5F5F5F",
         "Og": "#5F5F5F",
-
         "Sc": "#691A98",
         "Ti": "#691A98",
         "V": "#691A98",
@@ -239,6 +236,6 @@ def getElementButtonColor(element):
         "Sg": "#691A98",
         "Bh": "#691A98",
         "Hs": "#691A98",
-  # Add more elements and their colors as needed
-    } 
-    return button_colors[element] 
+        # Add more elements and their colors as needed
+    }
+    return button_colors[element]
