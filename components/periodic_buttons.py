@@ -112,9 +112,133 @@ def PeriodicTable(all_materials):
 
 
 def ElementButton(element, all_materials):
+    background_color = getElementButtonColor(element)
+    temp = f"background-color: {background_color}; color: white; width: 40px; height: 40px; "
+    temp2 = "{" + temp + "}"
+    temp3 = f"background-color: {background_color}; opacity: 0.5;"
+    temp4 = "{" + temp3 + "}"
+    temp5 = f"word-break: keep-all"
+    temp6 = "{" + temp5 + "}"
+    st.markdown(f"""
+    <style>
+                .element-container:has(#button-{element}) + div button {temp2}
+                .element-container:has(#button-{element}) + div button:disabled {temp4}
+                .element-container:has(#button-{element}) + div button * {temp6}
+                
+    </style>""", unsafe_allow_html=True)
+
+    st.markdown(f'<span id="button-{element}"></span>', unsafe_allow_html=True)
+
     st.button(
         element,
         on_click=select_element,
         args=element,
         disabled=element not in all_materials,
     )
+
+def getElementButtonColor(element):
+    button_colors = {
+        "H": "#3C4FB3",
+
+        "C": "#7280C3",
+
+        "N": "#3C4FB3",
+        "O": "#3C4FB3",
+        "P": "#3C4FB3",
+        "S": "#3C4FB3",
+        "Se": "#3C4FB3",
+        "F": "#3C4FB3",
+        "Cl": "#3C4FB3",
+        "Br": "#3C4FB3",
+        "I": "#3C4FB3",
+
+        "Li": "#00766A",
+        "Na": "#00766A",
+        "K": "#00766A",
+        "Rb": "#00766A",
+        "Cs": "#00766A",
+        "Fr": "#00766A",
+
+        "Be": "#C42529",
+        "Mg": "#C42529",
+        "Ca": "#C42529",
+        "Sr": "#C42529",
+        "Ba": "#C42529",
+        "Ra": "#C42529",
+
+        "La": "#2391EB",
+
+        "Ac": "#745148",
+
+        "He": "#AA1258",
+        "Ne": "#AA1258",
+        "Ar": "#AA1258",
+        "Kr": "#AA1258",
+        "Xe": "#AA1258",
+        "Rn": "#AA1258",
+
+        "B": "#817518",
+        "Si": "#817518",
+        "Ge": "#817518",
+        "As": "#817518",
+        "Sb": "#817518",
+        "Te": "#817518",
+        "At": "#817518",
+
+        "Al": "#2C7A30",
+        "Ga": "#2C7A30",
+        "In": "#2C7A30",
+        "Sn": "#2C7A30",
+        "Tl": "#2C7A30",
+        "Pb": "#2C7A30",
+        "Bi": "#2C7A30",
+        "Po": "#2C7A30",
+
+        "Mt": "#5F5F5F",
+        "Ds": "#5F5F5F",
+        "Rg": "#5F5F5F",
+        "Cn": "#5F5F5F",
+        "Nh": "#5F5F5F",
+        "Fl": "#5F5F5F",
+        "Mc": "#5F5F5F",
+        "Lv": "#5F5F5F",
+        "Ts": "#5F5F5F",
+        "Og": "#5F5F5F",
+
+        "Sc": "#691A98",
+        "Ti": "#691A98",
+        "V": "#691A98",
+        "Cr": "#691A98",
+        "Mn": "#691A98",
+        "Fe": "#691A98",
+        "Co": "#691A98",
+        "Ni": "#691A98",
+        "Cu": "#691A98",
+        "Zn": "#691A98",
+        "Y": "#691A98",
+        "Zr": "#691A98",
+        "Nb": "#691A98",
+        "Mo": "#691A98",
+        "Tc": "#691A98",
+        "Ru": "#691A98",
+        "Rh": "#691A98",
+        "Pd": "#691A98",
+        "Ag": "#691A98",
+        "Cd": "#691A98",
+        "Hf": "#691A98",
+        "Ta": "#691A98",
+        "W": "#691A98",
+        "Re": "#691A98",
+        "Os": "#691A98",
+        "Ir": "#691A98",
+        "Pt": "#691A98",
+        "Au": "#691A98",
+        "Hg": "#691A98",
+        "Rf": "#691A98",
+        "Db": "#691A98",
+        "Sg": "#691A98",
+        "Bh": "#691A98",
+        "Hs": "#691A98",
+  # Add more elements and their colors as needed
+    } 
+    return button_colors[element] 
