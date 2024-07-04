@@ -1,6 +1,4 @@
 def apply_operator(operator, value: str, other):
-    other = other.lower()
-    value = value.lower()
     if operator == "contains":
         return other in value
     if operator == "not contains":

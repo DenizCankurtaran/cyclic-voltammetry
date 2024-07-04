@@ -44,21 +44,10 @@ def FilterInput():
             "value": value_input,
         }
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.button("New", on_click=new_filter)
-
-    with col2:
-        st.button("Remove", on_click=remove_all_filter)
-
+    st.button("New Filter", on_click=new_filter)
 
 def new_filter():
     st.session_state["filter"].append({"column": "", "operator": "", "value": ""})
-
-
-def remove_all_filter():
-    st.session_state["filter"] = []
-
 
 def remove_filter(index):
     st.session_state["filter"].pop(index)
