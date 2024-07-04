@@ -104,7 +104,7 @@ if st.button("Plot"):
     st.switch_page("pages/2_graph.py")
 
 df = pd.DataFrame(filtered_entries)
-table = st.dataframe(
+st.dataframe(
     df,
     height = (len(filtered_entries) + 1) * 35 + 3,
     on_select="rerun", 
