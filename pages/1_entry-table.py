@@ -1,13 +1,16 @@
 from db.entries import get_entries_with_materials_and_system_type
 from components.filter_input import FilterInput
+from components.nav_bar import NavBar
 from util.operator import apply_operator
 from util.electrode import create_we_electrode, get_electrolyte_composition
 from util.source import create_source
 from util.get_thumbnail import get_thumbnail
+from util.pages import GRAPH_PAGE
 import streamlit as st
 import pandas as pd
 import frictionless
 
+NavBar("Table")
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
@@ -137,4 +140,4 @@ st.data_editor(
 
 if st.button("plot"):
     set_multiplot_state(filtered_entries, entries_with_materials_and_system_type)
-    st.switch_page("pages/2_graph.py")
+    st.switch_page(GRAPH_PAGE)

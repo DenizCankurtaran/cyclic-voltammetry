@@ -1,8 +1,11 @@
 import streamlit as st
 from components.periodic_table import PeriodicTable
+from components.nav_bar import NavBar
+from util.pages import TABLE_PAGE
 from db.entries import get_all_entries
 
 st.set_page_config(layout="wide")
+NavBar("Home")
 
 st.title("Cyclic Voltammetry")
 
@@ -50,7 +53,7 @@ with select_system:
 
 with search_button:
     if st.button("Search"):
-        st.switch_page("pages/1_entry-table.py")
+        st.switch_page(TABLE_PAGE)
 
 
 PeriodicTable(all_entries.materials())
