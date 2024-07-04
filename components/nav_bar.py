@@ -5,13 +5,12 @@ from util.pages import HOME_PAGE, TABLE_PAGE, ABOUT_PAGE
 
 def NavBar(current_page):
 
-    pages = ["Echemdb.org", "About", "GitHub"]
+    pages = ["Home", "About", "Echemdb.org", "GitHub"]
     if current_page in ["Table", "Graph"]:
         pages.insert(0, "Back")
 
     page = st_navbar(
         pages,
-        logo_path="./assets/echemdb_logo.svg",
         selected=None,
         urls={
             "Echemdb.org": "https://www.echemdb.org/",
