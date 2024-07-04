@@ -18,8 +18,9 @@ def NavBar(current_page):
             "GitHub": "https://github.com/echemdb",
         },
         styles={
-            "nav": {"background-color": "#006c67", "color": "white"},
+            "nav": {"background-color": "#006c67"},
             "ul": {"justify-content": "space-around"},
+            "span": {"color": "white"},
             "div": {"max-width": "100%"},
         },
         options={"show_menu": False},
