@@ -1,11 +1,14 @@
 import streamlit as st
 from components.periodic_table import PeriodicTable
 from components.nav_bar import NavBar
+from components.icon_button import IconButton, IconType, IconStyleSheet
 from util.pages import TABLE_PAGE
 from db.entries import get_all_entries
 
 st.set_page_config(layout="wide")
 NavBar("Home")
+
+IconStyleSheet()
 
 st.title("Cyclic Voltammetry")
 
@@ -40,7 +43,7 @@ with select_system:
             "Non aqueous",
         ],
         index=0,
-        label_visibility="collapsed"
+        label_visibility="collapsed",
     )
     if select_system_value == "Aqueous":
         st.session_state["system"] = "aqueous"
@@ -49,7 +52,12 @@ with select_system:
 
 
 with search_button:
-    if st.button("Search"):
+    if IconButton(
+        IconType.SEARCH,
+        "search-button",
+        text="Search",
+        padding_right="5px",
+    ):
         st.switch_page(TABLE_PAGE)
 
 

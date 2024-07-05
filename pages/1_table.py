@@ -1,6 +1,7 @@
 from db.entries import get_entries_with_materials_and_system_type
 from components.filter_input import FilterInput
 from components.nav_bar import NavBar
+from components.icon_button import IconStyleSheet
 from util.operator import apply_operator
 from util.electrode import create_we_electrode, get_electrolyte_composition
 from util.source import create_source
@@ -11,6 +12,9 @@ import pandas as pd
 import frictionless
 
 NavBar("Table")
+
+
+IconStyleSheet()
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
@@ -82,8 +86,11 @@ def apply_filter_input(entry):
         matches.append(apply_operator(operator, entry[column_key], value))
     return all(matches)
 
+
 def set_multiplot_state(filtered_table_entries, entries):
-    selected_table_entries_indices =  st.session_state["selected_plots"]["selection"]["rows"]
+    selected_table_entries_indices = st.session_state["selected_plots"]["selection"][
+        "rows"
+    ]
     selected_table_entries = [
         filtered_table_entries[index] for index in selected_table_entries_indices
     ]
@@ -109,8 +116,8 @@ if st.button("Plot"):
 df = pd.DataFrame(filtered_entries)
 st.dataframe(
     df,
-    height = (len(filtered_entries) + 1) * 35 + 3,
-    on_select="rerun", 
+    height=(len(filtered_entries) + 1) * 35 + 3,
+    on_select="rerun",
     selection_mode="multi-row",
     use_container_width=True,
     column_config={
