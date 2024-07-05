@@ -1,6 +1,6 @@
 HOME_PAGE = "app.py"
 
-TABLE_PAGE = "pages/1_entry-table.py"
+TABLE_PAGE = "pages/1_table.py"
 
 GRAPH_PAGE = "pages/2_graph.py"
 

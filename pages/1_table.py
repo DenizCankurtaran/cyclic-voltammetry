@@ -12,6 +12,12 @@ import frictionless
 
 NavBar("Table")
 
+
+st.markdown(
+    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
+    unsafe_allow_html=True,
+)
+
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
 
@@ -82,8 +88,11 @@ def apply_filter_input(entry):
         matches.append(apply_operator(operator, entry[column_key], value))
     return all(matches)
 
+
 def set_multiplot_state(filtered_table_entries, entries):
-    selected_table_entries_indices =  st.session_state["selected_plots"]["selection"]["rows"]
+    selected_table_entries_indices = st.session_state["selected_plots"]["selection"][
+        "rows"
+    ]
     selected_table_entries = [
         filtered_table_entries[index] for index in selected_table_entries_indices
     ]
@@ -109,8 +118,8 @@ if st.button("Plot"):
 df = pd.DataFrame(filtered_entries)
 st.dataframe(
     df,
-    height = (len(filtered_entries) + 1) * 35 + 3,
-    on_select="rerun", 
+    height=(len(filtered_entries) + 1) * 35 + 3,
+    on_select="rerun",
     selection_mode="multi-row",
     use_container_width=True,
     column_config={
