@@ -7,7 +7,7 @@ def FilterInput():
     for index, filter_state in enumerate(st.session_state["filter"]):
 
         if index == 0:
-            col1, col2, col3, _ = st.columns(4)
+            col1, col2, col3, _ = st.columns([2, 2, 2, 1])
 
             with col1:
                 st.write("Column")
@@ -16,7 +16,7 @@ def FilterInput():
             with col3:
                 st.write("Value")
 
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
 
         with col1:
             column_input = st.selectbox(

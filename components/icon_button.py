@@ -23,10 +23,7 @@ def IconButton(icon_type, button_id, on_click=None, text="", padding_right="0"):
     """
     Component to use has to inject css
 
-    st.markdown(
-        '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
-        unsafe_allow_html=True,
-    )
+    IconStyleSheet
     """
 
     icon_unicode = get_icon_unicode(icon_type)
@@ -45,4 +42,11 @@ def IconButton(icon_type, button_id, on_click=None, text="", padding_right="0"):
         + f"button {reset_container_tag}:before"
         + "{}",
     ):
-        st.button(text, on_click=on_click, key=button_id)
+        return st.button(text, on_click=on_click, key=button_id)
+
+
+def IconStyleSheet():
+    st.markdown(
+        '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
+        unsafe_allow_html=True,
+    )

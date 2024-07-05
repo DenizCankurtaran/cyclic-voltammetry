@@ -1,6 +1,7 @@
 from db.entries import get_entries_with_materials_and_system_type
 from components.filter_input import FilterInput
 from components.nav_bar import NavBar
+from components.icon_button import IconStyleSheet
 from util.operator import apply_operator
 from util.electrode import create_we_electrode, get_electrolyte_composition
 from util.source import create_source
@@ -13,10 +14,7 @@ import frictionless
 NavBar("Table")
 
 
-st.markdown(
-    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>',
-    unsafe_allow_html=True,
-)
+IconStyleSheet()
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
