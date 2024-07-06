@@ -1,13 +1,20 @@
 from db.entries import get_entries_with_materials_and_system_type
 from components.filter_input import FilterInput
+from components.nav_bar import NavBar
+from components.icon_button import IconStyleSheet
 from util.operator import apply_operator
 from util.electrode import create_we_electrode, get_electrolyte_composition
 from util.source import create_source
 from util.get_thumbnail import get_thumbnail
+from util.pages import GRAPH_PAGE
 import streamlit as st
 import pandas as pd
 import frictionless
 
+NavBar("Table")
+
+
+IconStyleSheet()
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
@@ -56,7 +63,6 @@ def get_table_entries(entries):
         graph_thumbnail = get_thumbnail(entry)
         table_entries.append(
             {
-                "plot": False,
                 "name": entry.package.resource_names[0],  # used to get db entry
                 "graph": graph_thumbnail,
                 "material": we_electrode["material"],
@@ -82,12 +88,11 @@ def apply_filter_input(entry):
 
 
 def set_multiplot_state(filtered_table_entries, entries):
-    selected_table_entries_indices = [
-        row_index
-        for row_index in st.session_state["selected_plots"]["edited_rows"].keys()
+    selected_table_entries_indices = st.session_state["selected_plots"]["selection"][
+        "rows"
     ]
     selected_table_entries = [
-        filtered_entries[index] for index in selected_table_entries_indices
+        filtered_table_entries[index] for index in selected_table_entries_indices
     ]
     selected_entries = [
         entries[table_entry["name"]] for table_entry in selected_table_entries
@@ -101,30 +106,30 @@ entries_with_materials_and_system_type = get_entries_with_materials_and_system_t
     materials, system_type
 )
 
-
 table_entries = get_table_entries(entries_with_materials_and_system_type)
 filtered_entries = list(filter(lambda x: apply_filter_input(x), table_entries))
 
+if st.button("Plot"):
+    set_multiplot_state(filtered_entries, entries_with_materials_and_system_type)
+    st.switch_page(GRAPH_PAGE)
+
 df = pd.DataFrame(filtered_entries)
-st.data_editor(
+st.dataframe(
     df,
+    height=(len(filtered_entries) + 1) * 35 + 3,
+    on_select="rerun",
+    selection_mode="multi-row",
     use_container_width=True,
     column_config={
-        "plot": st.column_config.CheckboxColumn("plot"),
-        "graph": st.column_config.ImageColumn("graph"),
-        "reference": st.column_config.LinkColumn("reference", display_text="article"),
+        "material": "Material",
+        "orientation": "Orientation",
+        "electrolyte": "Electrolyte",
+        "year": "Year",
+        "graph": st.column_config.ImageColumn("Graph"),
+        "reference": st.column_config.LinkColumn("Reference", display_text="article"),
     },
     hide_index=True,
     column_order=[
-        "plot",
-        "graph",
-        "material",
-        "orientation",
-        "electrolyte",
-        "year",
-        "reference",
-    ],
-    disabled=[
         "graph",
         "material",
         "orientation",
@@ -134,7 +139,3 @@ st.data_editor(
     ],
     key="selected_plots",
 )
-
-if st.button("plot"):
-    set_multiplot_state(filtered_entries, entries_with_materials_and_system_type)
-    st.switch_page("pages/2_graph.py")

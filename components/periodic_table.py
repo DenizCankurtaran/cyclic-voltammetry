@@ -1,14 +1,5 @@
 import streamlit as st
-
-
-def select_element(*args):
-    element = "".join(args)
-    materials = st.session_state["materials"]
-    if not materials:
-        materials = f"{element}"
-    else:
-        materials = f"{materials} {element}"
-    st.session_state["materials"] = materials
+from components.element_button import ElementButton
 
 
 # 90 Buttons
@@ -109,12 +100,3 @@ def PeriodicTable(all_materials):
         elements = ["He", "Ne", "Ar", "Kr", "Xe", "Rn", "Og"]
         for element in elements:
             ElementButton(element, all_materials)
-
-
-def ElementButton(element, all_materials):
-    st.button(
-        element,
-        on_click=select_element,
-        args=element,
-        disabled=element not in all_materials,
-    )

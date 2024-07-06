@@ -4,12 +4,15 @@ import pandas as pd
 from util.normalize_entries import normalize_entries
 from util.plot_graph import plot_graph
 from util.get_thumbnail import get_thumbnail
+from components.nav_bar import NavBar
 
 if "multiplot" not in st.session_state:
     st.session_state["multiplot"] = []
 
 entries = st.session_state["multiplot"]
 st.set_page_config(layout="wide")
+NavBar("Graph")
+
 st.title("Chart")
 
 ref_electrode = None
