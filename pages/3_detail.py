@@ -25,7 +25,11 @@ st.title(f"Detail view for {name}")
 col1, col2 = st.columns([3, 2])
 
 with col1:
-    plot_graph(entries, "Detail Entries")
+    labels = entries[0]
+    columns = labels["df"].columns
+    x_label = columns[1]
+    y_label = columns[2]
+    plot_graph(entries, "Detail Entries", x_label, y_label)
 
 with col2:
     tab1, tab2, tab3 = st.tabs(
@@ -56,28 +60,47 @@ with col2:
         electrolyte = electrochemical_system["electrolyte"]
 
         st.text(f"Components:")
-        for component in electrolyte["components"]:
-            st.text(f"- Name: {component['name']}")
-            st.text(f"- Type: {component['type']}")
-            if hasattr(component, "concentration"):
-                st.text("Concentration:")
-                st.text(f"Unit: {component['concentration']['unit']}")
-                st.text(f"Value: {component['concentration']['value']}")
-
-        temp_unit = electrochemical_system["electrolyte"]["temperature"]["unit"]
-        temp_value = electrochemical_system["electrolyte"]["temperature"]["value"]
+        for component in electrolyte['components']:
+            st.text('Concentration:')
+            if hasattr(component, 'name'):
+                st.text(f"- Name: {component['name']}")
+            if hasattr(component, 'type'):
+                st.text(f"- Type: {component['type']}")
+            if hasattr(component, 'concentration'):
+                if hasattr(component, 'unit'):
+                    st.text(f"Unit: {component['concentration']['unit']}")
+                if hasattr(component, 'value'):
+                    st.text(f"Value: {component['concentration']['value']}")
+        
+        
+        temp_unit=electrochemical_system["electrolyte"]["temperature"]["unit"]
+        temp_value=electrochemical_system["electrolyte"]["temperature"]["value"]
         st.text(f"Temperature:")
-        st.text(f"Unit: {temp_unit}")
-        st.text(f"Value: {temp_value}")
+        if temp_unit:
+            st.text(f"Unit: {temp_unit}")
+        if temp_value:
+            st.text(f"Value: {temp_value}")
+
+        st.subheader("Scan rate")
+        scan_rate = entry.figure_description['scan rate']
+        if hasattr(scan_rate, 'unit'):
+            st.text(f"Unit: {scan_rate['unit']}")       
+        if hasattr(scan_rate, 'value'):
+            st.text(f"Value: {scan_rate['value']}")
 
     with tab2:
         st.header("ENTRY SOURCE")
         entry_source = entry.source
-        st.text(f"Citation key: {entry_source.citation_key}")
-        st.text(f"URL: {entry_source.url}")
-        st.text(f"Techniques: {','.join(entry_source.techniques)}")
-        st.text(f"Figure: {entry_source.figure}")
-        st.text(f"Curve: {entry_source.curve}")
+        if hasattr(component, 'citation_key'):
+            st.text(f"Citation key: {entry_source.citation_key}")
+        if hasattr(component, 'url'):
+            st.text(f"URL: {entry_source.url}")
+        if hasattr(component, 'techniques'):
+                st.text(f"Techniques: {','.join(entry_source.techniques)}")
+        if hasattr(component, 'figure'):
+            st.text(f"Figure: {entry_source.figure}")
+        if hasattr(component, 'curve'):
+            st.text(f"Curve: {entry_source.curve}")
 
     with tab3:
         st.header("BIBLIOGRAPHY")

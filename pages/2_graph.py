@@ -51,7 +51,7 @@ with col1:
 with col2:
     if normalize_electrolyte_checkbox:
         ion = st.selectbox(
-            "Select Reference Electrolyte",
+            "Select Reference Electrolyte (Experimental)",
             [
                 "Br",
             ],
@@ -67,22 +67,23 @@ with col1:
 
 with col2:
     if normalize_scan_rate_checkbox:
-        ref_scan_rate = st.selectbox(
+        ref_scan_rate = st.number_input(
             "Select Reference Scanrate",
-            [
-                1.0,
-                2.0,
-                3.0,
-                4.0,
-            ],
-            index=0,
+            min_value=0.0,
+            value=5.0,
+            step=0.1,
         )
 
 normalized_entries = normalize_entries(
     entries, ref_electrode, c_ref, ion, ref_scan_rate
 )
 
-plot_graph(normalized_entries, "Normalized Entries")
+labels = normalized_entries[0]
+columns = labels["df"].columns
+x_label = columns[1]
+y_label = columns[2]
+
+plot_graph(normalized_entries, "Normalized Entries", x_label, y_label)
 
 identifiers = []
 graphs = []
