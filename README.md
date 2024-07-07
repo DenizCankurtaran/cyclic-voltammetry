@@ -1,6 +1,6 @@
 # cyclic-voltammetry
 
-Stremlit App to explore the data in the [echemdb repository](https://github.com/echemdb/electrochemistry-data), containing cyclic voltammograms (CVs) for single crystal electrodes.
+Streamlit App to explore the data in the [echemdb repository](https://github.com/echemdb/electrochemistry-data), containing cyclic voltammograms (CVs) for single crystal electrodes.
 
 A static version of the database can be found on [echemdb.org/cv](https://www.echemdb.org/cv/).
 
@@ -31,6 +31,8 @@ mamba activate echemdb_app
 ```
 
 ### Download the database
+
+Download the recent version of the database with the [unitpackage](https://echemdb.github.io/unitpackage/) API. Rerun the following lines, when the database changes.
 
 ```sh
 python
