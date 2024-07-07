@@ -91,15 +91,15 @@ with col2:
     with tab2:
         st.header("ENTRY SOURCE")
         entry_source = entry.source
-        if hasattr(component, 'citation_key'):
+        if hasattr(entry_source, 'citation_key'):
             st.text(f"Citation key: {entry_source.citation_key}")
-        if hasattr(component, 'url'):
+        if hasattr(entry_source, 'url'):
             st.text(f"URL: {entry_source.url}")
-        if hasattr(component, 'techniques'):
+        if hasattr(entry_source, 'techniques'):
                 st.text(f"Techniques: {','.join(entry_source.techniques)}")
-        if hasattr(component, 'figure'):
+        if hasattr(entry_source, 'figure'):
             st.text(f"Figure: {entry_source.figure}")
-        if hasattr(component, 'curve'):
+        if hasattr(entry_source, 'curve'):
             st.text(f"Curve: {entry_source.curve}")
 
     with tab3:
