@@ -10,3 +10,6 @@ dependencies:
   - pip>=24
   - streamlit>=1.36.0,<2.0.0
   - unitpackage>=0.8.4,<0.9.0
+  - pip:
+    - streamlit-extras>=0.4.3,<1.0.0
+    - streamlit-navigation-bar>=3.3.0,<3.4.0
