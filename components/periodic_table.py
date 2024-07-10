@@ -3,7 +3,6 @@ from components.element_button import ElementButton
 
 
 def PeriodicTable(all_materials):
-    st.title("Interactive Periodic Table")
 
     elements = [
         ["H", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "He"],
