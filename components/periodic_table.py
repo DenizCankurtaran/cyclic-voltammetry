@@ -2,6 +2,8 @@ import streamlit as st
 from components.element_button import ElementButton
 
 
+# 90 Buttons
+# Color with Css
 def PeriodicTable(all_materials):
 
     elements = [

@@ -10,7 +10,28 @@ NavBar("Home")
 
 IconStyleSheet()
 
-st.title("Cyclic Voltammetry")
+st.markdown(
+    """
+    <style>
+    .title {
+        text-align: center;
+    }
+    .subheader {
+        text-align: center;
+        color: #888888;
+        margin-bottom: 30px;
+    }
+    .header {
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 30px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+st.markdown('<h1 class="title">Welcome to echemdb</h1>', unsafe_allow_html=True)
+st.markdown('<h2 class="subheader">The community database for electrochemical data</h2>', unsafe_allow_html=True)
 
 if "materials" not in st.session_state:
     st.session_state["materials"] = ""
@@ -29,7 +50,7 @@ all_entries = get_all_entries()
 with search_bar:
     search_bar_value = st.text_input(
         label="Element Input",
-        placeholder="Select Element",
+        placeholder="Type in or click the element(s) you are looking for",
         label_visibility="collapsed",
         value=materials,
     )
@@ -62,3 +83,12 @@ with search_button:
 
 
 PeriodicTable(all_entries.materials())
+
+st.markdown('<h3 class="header">Project developed through the collaboration of:</h3>', unsafe_allow_html=True)
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.image("util/images/logo_fhi.png", use_column_width=True)
+with col2:
+    st.image("util/images/logo_bht.png", use_column_width=True)
+with col3:
+    st.image("util/images/logo_ulm.png", use_column_width=True)
