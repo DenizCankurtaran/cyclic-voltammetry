@@ -75,7 +75,8 @@ with col2:
         
         temp_unit=electrochemical_system["electrolyte"]["temperature"]["unit"]
         temp_value=electrochemical_system["electrolyte"]["temperature"]["value"]
-        st.text(f"Temperature:")
+        if temp_unit or temp_value:
+            st.text(f"Temperature:")
         if temp_unit:
             st.text(f"Unit: {temp_unit}")
         if temp_value:

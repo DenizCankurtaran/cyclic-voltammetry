@@ -6,7 +6,7 @@ def normalize_ref(entry, ref_electrode):
     Takes the CVEntry and returns the potential shift introduced by changing
     the reference electrode name. I.e.:
     
-        \Delta_E_ref = E_ref[current ref electrode] - E_ref[new ref electrode]
+    Delta_E_ref = E_ref[current ref electrode] - E_ref[new ref electrode]
         
     This delta E_ref will be applied to the potential of the CVEntry, essentially 
     shifting the CV on the x-axis.
