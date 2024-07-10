@@ -2,4 +2,5 @@
 showSidebarNavigation = false
 
 [theme]
+base = "light"
 primaryColor="#006c67"
