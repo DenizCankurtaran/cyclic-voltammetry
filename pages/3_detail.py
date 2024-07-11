@@ -71,23 +71,28 @@ with col2:
                     st.text(f"Unit: {component['concentration']['unit']}")
                 if hasattr(component, 'value'):
                     st.text(f"Value: {component['concentration']['value']}")
-        
-        
-        temp_unit=electrochemical_system["electrolyte"]["temperature"]["unit"]
-        temp_value=electrochemical_system["electrolyte"]["temperature"]["value"]
-        if temp_unit or temp_value:
-            st.text(f"Temperature:")
-        if temp_unit:
-            st.text(f"Unit: {temp_unit}")
-        if temp_value:
-            st.text(f"Value: {temp_value}")
+               
+        try:
+            temp_unit=electrochemical_system["electrolyte"]["temperature"]["unit"]
+            temp_value=electrochemical_system["electrolyte"]["temperature"]["value"]
+            if temp_unit or temp_value:
+                st.text(f"Temperature:")
+            if temp_unit:
+                st.text(f"Unit: {temp_unit}")
+            if temp_value:
+                st.text(f"Value: {temp_value}")
+        except:
+            print("No temperature found")
 
-        st.subheader("Scan rate")
-        scan_rate = entry.figure_description['scan rate']
-        if hasattr(scan_rate, 'unit'):
-            st.text(f"Unit: {scan_rate['unit']}")       
-        if hasattr(scan_rate, 'value'):
-            st.text(f"Value: {scan_rate['value']}")
+        try:
+            scan_rate = entry.figure_description['scan rate']
+            st.subheader("Scan rate")
+            if hasattr(scan_rate, 'unit'):
+                st.text(f"Unit: {scan_rate['unit']}")       
+            if hasattr(scan_rate, 'value'):
+                st.text(f"Value: {scan_rate['value']}")
+        except: 
+            print("No scan rate")
 
     with tab2:
         st.header("ENTRY SOURCE")
