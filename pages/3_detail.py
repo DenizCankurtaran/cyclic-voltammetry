@@ -34,6 +34,17 @@ entries = normalize_entries(
 st.set_page_config(layout="wide")
 NavBar("Detail")
 
+# Scrollable table, instead of scrolling the entire
+# page down depending on how many table entries exist.
+css=f'''
+div.stTabs {{
+    height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}}
+'''
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+
 st.title(f"Detail view for {name}")
 # Columns used to have the graph and table next to eachother,
 # instead of having the table and graph displayed vertically.
