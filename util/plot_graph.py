@@ -1,6 +1,10 @@
 import streamlit as st
 import plotly.graph_objs as go
 
+# Function used to plot the graph for both the graph overview
+# and the detail page. It takes the entries along side the
+# title of the graph and the respective X and Y Label,
+# plotting each individual entry.
 def plot_graph(entries, title, x_label, y_label):
     fig = go.Figure()
     for entry in entries:
