@@ -107,7 +107,7 @@ with col2:
                     st.markdown(format_item(f"Value: {component['concentration']['value']}"), unsafe_allow_html=True)
 
                
-        # Display the temperature and the unite of a electrolyte
+        # Display the temperature and the unit of a electrolyte
         try:
             temp_unit=electrochemical_system["electrolyte"]["temperature"]["unit"]
             temp_value=electrochemical_system["electrolyte"]["temperature"]["value"]

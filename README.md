@@ -23,6 +23,7 @@ Clone the repository.
 git clone git@github.com:DunklesArchipel/cyclic-voltammetry.git
 cd cyclic-voltammetry
 ```
+Note: You can install the requirements for this project with either pip OR conda (mamba). If you're using pip it's not necessary to use conda and the other way around
 
 ### Install with pip
 
@@ -48,6 +49,8 @@ db = Collection.from_remote() # the download may take a few minutes
 db.save_entries('entries')
 exit()
 ```
+
+Alternatively, you can also run ```db\_persist_db_local.py ``` to download the database.
 
 ## Run app
 
