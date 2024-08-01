@@ -132,6 +132,15 @@ with col2:
         except: 
             print("No scan rate")
 
+        # Display the PH of a electrolyte
+        try:
+            ph_value = electrochemical_system['electrolyte']['ph']
+            st.subheader("Ph")
+            if hasattr(ph_value, 'value'):
+                st.text(f"Value: {ph_value['value']}")
+        except: 
+            print("No Ph")
+
     # - Entry Source Tab
     # Similarily to the first tab, check if there are
     # matching attributes inside the entry source,
@@ -149,7 +158,7 @@ with col2:
             st.text(f"Figure: {entry_source.figure}")
         if hasattr(entry_source, 'curve'):
             st.text(f"Curve: {entry_source.curve}")
-
+    
     # - Bibliography Tab
     # Loop through all fields first inside the Bibliography
     # of the entry and display those. After that, loop
