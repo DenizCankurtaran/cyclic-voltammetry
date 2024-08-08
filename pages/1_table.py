@@ -25,6 +25,9 @@ if "system" not in st.session_state:
 if "filter" not in st.session_state:
     st.session_state["filter"] = []
 
+if "selected_plots" not in st.session_state:
+    st.session_state["selected_plots"] = {"selection": {"rows": []}}
+
 materials = st.session_state["materials"].split(" ")
 
 system_type = st.session_state["system"]
@@ -60,7 +63,7 @@ def get_table_entries(entries):
 
         source = create_source(entry.source.__dict__["_descriptor"])
 
-        graph_thumbnail = get_thumbnail(entry)
+        graph_thumbnail = get_thumbnail(entry, entry.package.resource_names[0])
         table_entries.append(
             {
                 "name": entry.package.resource_names[0],  # used to get db entry
@@ -109,7 +112,8 @@ entries_with_materials_and_system_type = get_entries_with_materials_and_system_t
 table_entries = get_table_entries(entries_with_materials_and_system_type)
 filtered_entries = list(filter(lambda x: apply_filter_input(x), table_entries))
 
-if st.button("Plot"):
+selected_entries = st.session_state["selected_plots"]["selection"]["rows"]
+if st.button("Plot", disabled=len(selected_entries) == 0):
     set_multiplot_state(filtered_entries, entries_with_materials_and_system_type)
     st.switch_page(GRAPH_PAGE)
 

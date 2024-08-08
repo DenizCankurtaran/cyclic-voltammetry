@@ -61,7 +61,7 @@ col1, col2 = st.columns([2, 1])
 with col1:
     normalize_electrolyte_checkbox = st.checkbox("Normalize Electrolyte Concentration")
 
-# List all available reference electrolytes and 
+# List all available reference electrolytes and
 # set the ion depending on what was selected
 # (For now only BR is available)
 with col2:
@@ -92,7 +92,7 @@ with col2:
             min_value=0.0,
             value=50.0,
             step=0.5,
-            format="%.1f"
+            format="%.1f",
         )
 
 # Retrive the selected normilzation method / input, and save
@@ -121,7 +121,9 @@ for index, entry in enumerate(normalized_entries):
     identifier = entry["identifier"]
     identifiers.append(identifier)
 
-    graphs.append(get_thumbnail(entries[index]))
+    graphs.append(
+        get_thumbnail(entries[index], entries[index].package.resource_names[0])
+    )
 
     urls.append(f"/detail?name={identifier}")
 
